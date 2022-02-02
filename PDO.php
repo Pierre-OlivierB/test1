@@ -22,10 +22,29 @@
 // $dbpass = '';
 // $dbh = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass, array(PDO::ATTR_PERSISTENT => true));
 
-$sql =  'SELECT name, color, calories FROM fruit ORDER BY name';
-foreach  ($conn->query($sql) as $row) {
-    print $row['name'] . "\t";
-    print  $row['color'] . "\t";
-    print $row['calories'] . "\n";
-}
+// $sql =  'SELECT name, color, calories FROM fruit ORDER BY name';
+// foreach  ($conn->query($sql) as $row) {
+//     print $row['name'] . "\t";
+//     print  $row['color'] . "\t";
+//     print $row['calories'] . "\n";
+// }
+
+try {
+    $dbhost = 'localhost';
+    $dbname='dragon';
+    $dbuser = 'root';
+    $dbpass = '';
+    $connec = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
+    }catch (PDOException $e) {
+    echo "Error : " . $e->getMessage() . "
+    ";
+    die();
+    }
+    /* Execute a prepared statement by passing an array of values */
+    $sql = 'SELECT Dragon, Sexe FROM dragons2
+            WHERE Sexe = :sex';
+    $sth = $connec->prepare($sql);
+    $sth->execute(array(':sex' => 'F'));
+    $c = $sth->fetchAll();
+    print_r($c);
 ?>
